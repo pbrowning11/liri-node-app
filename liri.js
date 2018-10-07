@@ -38,15 +38,19 @@ function songInfo(value) {
     if (value === "") {
         value = "The Sign Ace of Base"
     }
-    spotify.search({ type: 'track', query: value}, function (err, data) {
+    spotify.search({ type: 'track', query: value,}, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
-        console.log("Song Title: " + data.tracks.items[0].name);
-        console.log("Spotify Preview: " + data.tracks.items[0].external_urls.spotify);
-        console.log("Album Title: " + data.tracks.items[0].album.name);
+        var itemsArr = data.tracks.items
+
+        for (var i = 0; i < itemsArr .length; i++) {
+        console.log(i+1 + " Artist: " + data.tracks.items[i].album.artists[0].name);
+        console.log("Song Title: " + data.tracks.items[i].name);
+        console.log("Spotify Preview: " + data.tracks.items[i].external_urls.spotify);
+        console.log("Album Title: " + data.tracks.items[i].album.name);
         console.log("---------------------")
+    }
     });
 };
 function movieInfo(value) {
