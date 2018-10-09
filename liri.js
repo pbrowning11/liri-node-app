@@ -25,7 +25,7 @@ function bandInfo(value) {
         if (!error && response.statusCode === 200) {
             var Arr = JSON.parse(body);
             for (var i = 0; i < Arr.length; i++) {
-                console.log(i+1 + ". The name of the venue is: " + Arr[i].venue.name);
+                console.log(i + 1 + ". The name of the venue is: " + Arr[i].venue.name);
                 console.log("The location of the venue is: " + Arr[i].venue.city);
                 console.log("The date of the show is: " + moment(Arr[i].datetime, "YYYY/MM/DD").format("MM/DD/YYYY"));
                 console.log("---------------------");
@@ -38,19 +38,19 @@ function songInfo(value) {
     if (value === "") {
         value = "The Sign Ace of Base"
     }
-    spotify.search({ type: 'track', query: value,}, function (err, data) {
+    spotify.search({ type: 'track', query: value, }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
         var itemsArr = data.tracks.items
 
-        for (var i = 0; i < itemsArr .length; i++) {
-        console.log(i+1 + " Artist: " + data.tracks.items[i].album.artists[0].name);
-        console.log("Song Title: " + data.tracks.items[i].name);
-        console.log("Spotify Preview: " + data.tracks.items[i].external_urls.spotify);
-        console.log("Album Title: " + data.tracks.items[i].album.name);
-        console.log("---------------------")
-    }
+        for (var i = 0; i < itemsArr.length; i++) {
+            console.log(i + 1 + " Artist: " + data.tracks.items[i].album.artists[0].name);
+            console.log("Song Title: " + data.tracks.items[i].name);
+            console.log("Spotify Preview: " + data.tracks.items[i].external_urls.spotify);
+            console.log("Album Title: " + data.tracks.items[i].album.name);
+            console.log("---------------------")
+        }
     });
 };
 function movieInfo(value) {
@@ -64,7 +64,16 @@ function movieInfo(value) {
             console.log("The movie's title is: " + JSON.parse(body).Title);
             console.log("The movie's release year is: " + JSON.parse(body).Year);
             console.log("The movie's IMDb rating is: " + JSON.parse(body).imdbRating);
-            console.log("The movie's Rotten Tomato rating is: " + JSON.parse(body).Ratings[1].Value);
+            var foundTomato = false;
+            for (var i = 0; i < JSON.parse(body).Ratings.length; i++) {
+                if (JSON.parse(body).Ratings[i].Source === "Rotten Tomatoes") {
+                    console.log("The movie's Rotten Tomato rating is: " + JSON.parse(body).Ratings[i].Value);
+                    foundTomato = true;
+                }
+            }
+            if (!foundTomato) {
+                console.log("There is no Rotten Tomato rating for " + value)
+            }
             console.log("The movie's production country is: " + JSON.parse(body).Country);
             console.log("The movie's language is: " + JSON.parse(body).Language);
             console.log("The movie's plot is: " + JSON.parse(body).Plot);
